@@ -9,6 +9,10 @@ def doTheThingOptimism (address):
     import json
     # for json things
 
+    from graphKey import returnKey
+
+    from donateAmounts import getDonateAmounts #(userAddress, alchemyEndpoint, subgraphEndpoint)
+
     # import time
     # to run a timer
 
@@ -122,7 +126,9 @@ def doTheThingOptimism (address):
         }
         #api call request headers
 
-        graphURL = "https://api.thegraph.com/subgraphs/name/alchemix-finance/alchemix_v2_optimisim"
+        #graphURL = "https://api.thegraph.com/subgraphs/name/alchemix-finance/alchemix_v2_optimisim"
+        graphApiKey = returnKey()
+        graphURL = 'https://gateway-arbitrum.network.thegraph.com/api/' + graphApiKey + '/subgraphs/id/GYBJ8wsQFkSwcgCqhaxnz5RU2VbgedAkWUk2qx9gTnzr'
         # url for querying the graph
 
         queryResponse = requests.post(graphURL, json=data, headers=headers)
@@ -340,6 +346,13 @@ def doTheThingOptimism (address):
 
         #if y == 1:
         #    break
+
+    graphApiKey = returnKey()
+    graphURL = 'https://gateway-arbitrum.network.thegraph.com/api/' + graphApiKey + '/subgraphs/id/GYBJ8wsQFkSwcgCqhaxnz5RU2VbgedAkWUk2qx9gTnzr'
+
+    userRewards = getDonateAmounts(address, apiString, graphURL)
+
+    earnings.append(userRewards)
 
     final = json.dumps(earnings, indent=4)
     # makes json out of the compiled information

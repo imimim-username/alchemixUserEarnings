@@ -6,6 +6,10 @@ def doTheThing (address):
     import json
     # for json things
 
+    from graphKey import returnKey
+
+    from donateAmounts import getDonateAmounts #(userAddress, alchemyEndpoint, subgraphEndpoint)
+
     api_key = open("/home/imimim/mysite/alch/alchemy_api_key_mainnet.txt", "r")
     # get the alchemy_api_key
 
@@ -172,7 +176,9 @@ def doTheThing (address):
 
         # graphURL = "https://api.thegraph.com/subgraphs/name/alchemix-finance/alchemix_v2"
         # url for querying the graph
-        graphURL = "https://subgraph.satsuma-prod.com/f98294de706d/alchemix--802384/alchemix-v2/api"
+        #graphURL = "https://subgraph.satsuma-prod.com/f98294de706d/alchemix--802384/alchemix-v2/api"
+        graphApiKey = returnKey()
+        graphURL = 'https://gateway-arbitrum.network.thegraph.com/api/' + graphApiKey + '/subgraphs/id/GJ9CJ66TgbJnXcXGuZiSYAdGNkJBAwqMcKHEvfVmCkdG'
         # new graph url hosted by alchemy. Will start using when it has all the blocks
 
         queryResponse = requests.post(graphURL, json=data, headers=headers)
@@ -390,6 +396,13 @@ def doTheThing (address):
 
         #if y == 1:
         #    break
+
+    graphApiKey = returnKey()
+    graphURL = 'https://gateway-arbitrum.network.thegraph.com/api/' + graphApiKey + '/subgraphs/id/GJ9CJ66TgbJnXcXGuZiSYAdGNkJBAwqMcKHEvfVmCkdG'
+
+    userRewards = getDonateAmounts(address, apiString, graphURL)
+
+    earnings.append(userRewards)
 
     final = json.dumps(earnings, indent=4)
     # makes json out of the compiled information

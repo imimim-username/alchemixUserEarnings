@@ -9,6 +9,10 @@ def doTheThingArbitrum (address):
     import json
     # for json things
 
+    from graphKey import returnKey
+
+    from donateAmounts import getDonateAmounts #(userAddress, alchemyEndpoint, subgraphEndpoint)
+
     # import time
     # to run a timer
 
@@ -92,7 +96,9 @@ def doTheThingArbitrum (address):
         }
         #api call request headers
 
-        graphURL = "https://api.goldsky.com/api/public/project_cltwyhnfyl4z001x17t5odo5x/subgraphs/alchemix-arb/1.0.0/gn"
+        #graphURL = "https://api.goldsky.com/api/public/project_cltwyhnfyl4z001x17t5odo5x/subgraphs/alchemix-arb/1.0.0/gn"
+        graphApiKey = returnKey()
+        graphURL = 'https://gateway-arbitrum.network.thegraph.com/api/' + graphApiKey + '/subgraphs/id/Dgjyhh69XooHPd4JjvT3ik9FaGAR3w7sUSQyQ1YDakGp'
         # url for querying the graph
 
         queryResponse = requests.post(graphURL, json=data, headers=headers)
@@ -310,6 +316,13 @@ def doTheThingArbitrum (address):
 
         #if y == 1:
         #    break
+
+    graphApiKey = returnKey()
+    graphURL = 'https://gateway-arbitrum.network.thegraph.com/api/' + graphApiKey + '/subgraphs/id/Dgjyhh69XooHPd4JjvT3ik9FaGAR3w7sUSQyQ1YDakGp'
+
+    userRewards = getDonateAmounts(address, apiString, graphURL)
+
+    earnings.append(userRewards)
 
     final = json.dumps(earnings, indent=4)
     # makes json out of the compiled information

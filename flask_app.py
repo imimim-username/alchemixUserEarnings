@@ -48,6 +48,7 @@ def adder_page():
                         <p>Here is the URL that has the JSON with the address' share of Mainnet harvest earnings <a href="{finalURL}" target="_blank">{finalURL}</a></p>
                         <p>Here is the URL that has the JSON with the address' share of Optimism harvest earnings <a href="{finalURLoptimism}" target="_blank">{finalURLoptimism}</a></p>
                         <p>Here is the URL that has the JSON with the address' share of Arbitrum harvest earnings <a href="{finalURLarbitrum}" target="_blank">{finalURLarbitrum}</a></p>
+                        <p>If the JSON includes alUSD or alETH as the yieldToken, that is the Address' share of bonus rewards that were included with a harvest.</p>
                         <p>These links will remain valid for approximately 30 days.</p>
                         <p>These values are a good faith effort, but are not guaranteed. Please verify these values against your own calculations.</p>
                         <p>If you need a CSV of the data, you can copy the above links and use them in a JSON to CSV converting service, such as <a href="https://www.convertcsv.com/json-to-csv.htm" target="_blank">https://www.convertcsv.com/json-to-csv.htm</a></p>
