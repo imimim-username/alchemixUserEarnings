@@ -33,28 +33,32 @@ def adder_page():
     errors = ""
     if request.method == "POST":
         address = ""
+        network = request.form.get('network', 'Mainnet')
         try:
             address = request.form["address"]
         except:
             errors += "<p>{!r} is not a valid address.</p>\n".format(request.form["address"])
 
         if address != "" :
-            finalURL = doTheThing(address)
-            finalURLoptimism = doTheThingOptimism(address)
-            finalURLarbitrum = doTheThingArbitrum(address)
+            if network == 'Mainnet':
+                finalURL = doTheThing(address)
+            elif network == 'Optimism':
+                finalURL = doTheThingOptimism(address)
+            elif network == 'Arbitrum':
+                finalURL = doTheThingArbitrum(address)
+            else:
+                finalURL = 'Error'
             return '''
                 <html>
                     <body>
-                        <p>Here is the URL that has the JSON with the address' share of Mainnet harvest earnings <a href="{finalURL}" target="_blank">{finalURL}</a></p>
-                        <p>Here is the URL that has the JSON with the address' share of Optimism harvest earnings <a href="{finalURLoptimism}" target="_blank">{finalURLoptimism}</a></p>
-                        <p>Here is the URL that has the JSON with the address' share of Arbitrum harvest earnings <a href="{finalURLarbitrum}" target="_blank">{finalURLarbitrum}</a></p>
+                        <p>Here is the URL that has the JSON with the address' share of {network} harvest earnings <a href="{finalURL}" target="_blank">{finalURL}</a></p>
                         <p>If the JSON includes alUSD or alETH as the yieldToken, that is the Address' share of bonus rewards that were included with a harvest.</p>
                         <p>These links will remain valid for approximately 30 days.</p>
                         <p>These values are a good faith effort, but are not guaranteed. Please verify these values against your own calculations.</p>
                         <p>If you need a CSV of the data, you can copy the above links and use them in a JSON to CSV converting service, such as <a href="https://www.convertcsv.com/json-to-csv.htm" target="_blank">https://www.convertcsv.com/json-to-csv.htm</a></p>
                     </body>
                 </html>
-            '''.format(finalURL=finalURL,finalURLoptimism=finalURLoptimism,finalURLarbitrum=finalURLarbitrum)
+            '''.format(network=network,finalURL=finalURL)
 
     return '''
         <html>
@@ -62,6 +66,14 @@ def adder_page():
                 <p>Enter your address:</p>
                 <form method="post" action=".">
                     <p><input name="address" /></p>
+                    <p>
+                        <label for="network">Choose a network:</label>
+                        <select id="network" name="network">
+                            <option value="Mainnet">Mainnet</option>
+                            <option value="Optimism">Optimism</option>
+                            <option value="Arbitrum">Arbitrum</option>
+                        </select>
+                    </p>
                     <p><input type="submit" value="Get earnings" /></p>
                     <p>This currently has no validation, so please only input valid Ethereum address</p>
                     <p>Your address is not logged anywhere, but it is needed to get the relevant history.</p>
@@ -72,3 +84,4 @@ def adder_page():
             </body>
         </html>
     '''.format(errors=errors)
+    #added dropdown becaues server was timing out after 5 minutes when trying to do all the networks at once
